@@ -204,6 +204,7 @@ int main() {
 // 실행 결과
 rect1은 정사각형이다.
 rect3는 정사각형이다.
+    
 // 예제 3-7 : Circle 클래스에 소멸자 작성 및 실행
 #include <iostream>
 using namespace std;
