@@ -310,3 +310,118 @@ int main() {
 정수 반지름 입력(음수이면 종료)>> -1
 
 // 예제 4-9 : Circle 배열의 동적 생성 및 반환
+#include <iostream>
+using namespace std;
+
+class Circle {
+    int radius;
+public:
+    Circle();
+    Circle(int r);
+    ~Circle();
+    void setRadius(int r) { radius = r; }
+    double getArea() { return 3.14*radius*radius; }
+};
+
+Circle::Circle() {
+    radius = 1;
+    cout << "생성자 실행 radius = " << radius << endl;
+}
+
+Circle::Circle(int r) {
+    radius = r;
+    cout << "생성자 실행 radius = " << radius << endl;
+}
+
+Circle::~Circle() {
+    cout << "소멸자 실행 radius = " << radius << endl;
+}
+
+int main() {
+    Circle *pArray = new Circle[3];
+
+    pArray[0].setRadius(10);
+    pArray[1].setRadius(20);
+    pArray[2].setRadius(30);
+
+    for(int i=0; i<3; i++) {
+        cout << pArray[i].getArea() << "\n";
+    }
+    Circle *p = pArray;
+    for(int i=0; i<3; i++) {
+        cout << p->getArea() << "\n";
+        p++;
+    }
+
+    delete [] pArray;
+}
+
+// 실행 결과
+생성자 실행 radius = 1
+생성자 실행 radius = 1
+생성자 실행 radius = 1
+314
+1256
+2826
+314
+1256
+2826
+소멸자 실행 radius = 30
+소멸자 실행 radius = 20
+소멸자 실행 radius = 10
+
+// 예제 4-10 : 객체 배열의 동적 생성과 반환 응용
+#include <iostream>
+using namespace std;
+
+class Circle {
+    int radius;
+public:
+    Circle();
+    ~Circle() {};
+    void setRadius(int r) {radius = r;}
+    double getArea() {return 3.14*radius*radius;}
+};
+
+Circle::Circle() {
+    radius = 1;
+}
+
+int main() {
+    cout << "생성하고자 하는 원의 개수?";
+    int n, radius;
+    cin >> n;
+
+    Circle *pArray = new Circle[n];
+
+    for(int i=0; i<n; i++) {
+        cout << "원" << i+1 << ": ";
+        cin >> radius;
+        pArray[i].setRadius(radius);
+    }
+
+    for(int i=0; i<n; i++) {
+        cout << pArray[i].getArea() << " ";
+    }
+
+    int count = 0;
+    for(int i = 0; i < n; i++) {
+        double area = pArray[i].getArea();
+        if(area >= 100 && area <= 200) {
+            count ++;
+        }
+    }
+
+    cout << endl << "면적이 100에서 200 사이인 원의 개수는 " << count << endl;
+
+    delete [] pArray;
+}
+
+// 실행 결과
+생성하고자 하는 원의 개수?4
+원1: 5
+원2: 6
+원3: 7
+원4: 8
+78.5 113.04 153.86 200.96 
+면적이 100에서 200 사이인 원의 개수는 2
