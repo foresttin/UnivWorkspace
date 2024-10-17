@@ -400,12 +400,9 @@ int main() {
         pArray[i].setRadius(radius);
     }
 
-    for(int i=0; i<n; i++) {
-        cout << pArray[i].getArea() << " ";
-    }
-
     int count = 0;
     for(int i = 0; i < n; i++) {
+        cout << pArray[i].getArea() << " ";
         double area = pArray[i].getArea();
         if(area >= 100 && area <= 200) {
             count ++;
