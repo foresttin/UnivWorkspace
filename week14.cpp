@@ -256,22 +256,225 @@ int main() {
 사전에서 가장 뒤에 나오는 이름은 황기태
 
 // 예제 10-11
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+
+    vector<int>::iterator it;
+
+    for(it=v.begin(); it != v.end(); it++) {
+        int n = *it;
+        n = n*2;
+        *it = n;
+    }
+
+    for(it=v.begin(); it != v.end(); it++)
+        cout << *it << ' ';
+    cout << endl;
+}
+
 // 실행 결과
+2 4 6 
+    
 // 예제 10-12
+#include <iostream>
+#include <string>
+#include <map>
+using namespace std;
+
+int main() {
+map<string, string> dic; // 맵 컨테이너 dic 생성. 키는 영어 단어, 값은 한글 단어
+
+// 단어 3개를 map에 저장
+dic.insert(make_pair("love", "사랑")); // ("love", "사랑") 저장
+dic.insert(make_pair("apple", "사과")); // ("apple", "사과") 저장
+dic["cherry"] = "체리"; // ("cherry", "체리") 저장
+
+cout << "저장된 단어 개수 " << dic.size() << endl;
+
+string eng;
+while (true) {
+    cout << "찾고 싶은 단어>> ";
+    getline(cin, eng); // 사용자로부터 키 입력
+    if (eng == "exit")
+        break; // "exit"이 입력되면 종료
+
+    if(dic.find(eng) == dic.end()) // eng '키'를 끝까지 찾았는데 없음
+        cout << "없음" << endl;
+    else
+        cout << dic[eng] << endl; // dic에서 eng의 값을 찾아 출력
+    }
+    cout << "종료합니다..." << endl;
+}
+
 // 실행 결과
+저장된 단어 개수 3
+찾고 싶은 단어>> apple
+사과
+찾고 싶은 단어>>  lov
+없음
+찾고 싶은 단어>> love
+사랑
+찾고 싶은 단어>> exit
+종료합니다...
+    
 // 예제 10-13
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+int main() {
+    vector<int> v; // 정수 벡터 생성
+    cout << "5개의 정수를 입력하세요>> ";
+    for(int i=0; i<5; i++) {
+        int n;
+        cin >> n;
+        v.push_back(n); // 키보드에서 읽은 정수를 벡터에 삽입
+    }
+
+    // v.begin()에서 v.end() 사이의 값을 오름차순으로 정렬
+    // sort() 함수의 실행 결과 벡터 v의 원소 순서가 변경됨
+    sort(v.begin(), v.end());
+
+    vector<int>::iterator it; // 벡터 내의 원소를 탐색하는 iterator 변수 선언
+    
+    for(it=v.begin(); it != v.end(); it++) // 벡터 v의 모든 원소 출력
+        cout << *it << ' ';
+    cout << endl;
+}
+
 // 실행 결과
+5개의 정수를 입력하세요>> 30 -7 250 6 120
+-7 6 30 120 250 
+    
 // 예제 10-14
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int square(int x) { return x*x; }
+
+int main() {
+    // 기본 타입 선언에 auto 활용
+    auto c = 'a'; // c는 char 타입으로 결정
+    auto pi = 3.14; // pi은 double 타입으로 결정
+    auto ten = 10; // ten은 int 타입으로 결정
+    auto *p = &ten; // 변수 p는 int* 타입으로 결정
+    cout << c << " " << pi << " " << ten << " " << *p << endl;
+
+    // 함수의 리턴 타입으로 추론
+    auto ret = square(3); // square() 함수의 리턴 타입이 int 이므로 ret는 int로 결정
+    cout << *p << " " << ret << endl;
+
+    vector<int> v = { 1,2,3,4,5 }; //벡터 v에 5개의 원소, 1,2,3,4,5 삽입
+    vector<int>::iterator it;
+    for (it = v.begin(); it != v.end(); it++)
+        cout << *it << " "; // 1 2 3 4 5 출력
+    cout << endl;
+    
+    // 템플릿에 auto를 사용하여 간소화
+    for (auto it = v.begin(); it != v.end(); it++)
+        cout << *it << " "; // 1 2 3 4 5 출력
+}
+
 // 실행 결과
+a 3.14 10 10
+10 9
+1 2 3 4 5
+1 2 3 4 5
+
 // 예제 10-15
+#include <iostream>
+using namespace std;
+int main() {
+// 람다 함수 선언과 동시에 호출(x=2, y=3 전달)
+[](int x, int y) { cout << "합은 " << x + y; } (2, 3); // 5 출력
+}
+
 // 실행 결과
+합은 5
+    
 // 예제 10-16
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    auto love = [](string a, string b) {
+                    cout << a << "보다 " << b << "가 좋아" << endl;
+                };
+    love("돈", "너"); // 람다식 호출
+    love("냉면", "만두"); // 람다식 호출
+}
+
 // 실행 결과
+돈보다 너가 좋아
+냉면보다 만두가 좋아
+
 // 예제 10-17
+#include <iostream>
+using namespace std;
+
+int main() {
+    double pi = 3.14; // 지역 변수
+    auto calc = [pi](int r) -> double { return pi*r*r; };
+    cout << "면적은 " << calc(3); // 람다식 호출. 28.26출력
+}
+
 // 실행 결과
+면적은 28.26
+    
 // 예제 10-18
+#include <iostream>
+using namespace std;
+
+int main() {
+    int sum = 0; // 지역 변수
+    [&sum](int x, int y) { sum = x + y; } (2, 3); // 합 5를 지역변수 sum에 저장
+    cout << "합은 " << sum;
+}
+
 // 실행 결과
+합은 5
+    
 // 예제 10-19
+#include <iostream>
+#include <vector>
+#include <algorithm> // for_each() 알고리즘 함수를 사용하기 위함
+using namespace std;
+
+void print(int n) {
+    cout << n << " ";
+}
+
+int main() {
+    vector<int> v = { 1, 2, 3, 4, 5 };
+    // for_each()는 벡터 v의 첫번째 원소부터 끝까지 검색하면서,
+    // 각 원소에 대해 print(int n) 호출. 매개 변수 n에 각 원소 값 전달
+    for_each(v.begin(), v.end(), print);
+}
+
 // 실행 결과
+1 2 3 4 5
+    
 // 예제 10-20
+#include <iostream>
+#include <vector>
+#include <algorithm> // for_each() 알고리즘 함수를 사용하기 위함
+using namespace std;
+
+int main() {
+    vector<int> v = { 1, 2, 3, 4, 5 };
+    // for_each()는 벡터 v의 첫번째 원소부터 끝까지 검색하면서,
+    // 각 원소에 대해 3번째 매개변수인 람다식 호출. 매개변수 n에 각 원소 값 전달
+    for_each(v.begin(), v.end(), [](int n) { cout << n << " "; });
+}
+
 // 실행 결과
+1 2 3 4 5
